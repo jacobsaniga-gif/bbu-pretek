@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="sk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="BBU Fuel">
+<meta name="theme-color" content="#0b0d10">
+<meta name="format-detection" content="telephone=no">
+<title>BBU Fuel Tracker</title>
+<link rel="manifest" href="./manifest.webmanifest">
+<link rel="apple-touch-icon" href="./apple-touch-icon.png">
+<link rel="icon" href="./icon-192.png">
+<link rel="stylesheet" href="./style.css">
+</head>
+<body>
+
+<header id="hdr">
+  <div class="hdr-label">Od posledného príjmu</div>
+  <div id="since">–:––</div>
+  <div id="since-sub" class="hdr-sub">zatiaľ žiadny záznam</div>
+</header>
+
+<main>
+
+  <!-- ---------- 1. LOGOVANIE ---------- -->
+  <section id="screen-log" class="screen wrap">
+    <button id="undo" class="btn btn-undo" type="button">Späť</button>
+    <div id="cats"></div>
+  </section>
+
+  <!-- ---------- 2. PREHĽAD ---------- -->
+  <section id="screen-sum" class="screen wrap hidden">
+    <h2>Posledná hodina</h2>
+    <div id="hour-rows"></div>
+
+    <h2>Celkovo od štartu</h2>
+    <div id="total-rows"></div>
+
+    <h2>Pretek</h2>
+    <div id="race-rows"></div>
+  </section>
+
+  <!-- ---------- 3. HISTÓRIA ---------- -->
+  <section id="screen-hist" class="screen wrap hidden">
+    <h2>História</h2>
+    <div id="hist-list"></div>
+  </section>
+
+  <!-- ---------- 4. NASTAVENIA ---------- -->
+  <section id="screen-set" class="screen wrap hidden">
+    <h2>Pretek</h2>
+    <div id="race-state" class="note"></div>
+    <button id="btn-start" class="btn" type="button">Štart preteku</button>
+    <button id="btn-reset" class="btn btn-danger" type="button">Reset preteku</button>
+
+    <h2>Ciele na hodinu</h2>
+    <label class="field">
+      <span>Sacharidy (g/h)</span>
+      <input id="t-carbs" type="number" inputmode="decimal" min="0" step="1">
+    </label>
+    <label class="field">
+      <span>Sodík (mg/h)</span>
+      <input id="t-sodium" type="number" inputmode="decimal" min="0" step="10">
+    </label>
+    <label class="field">
+      <span>Tekutiny (ml/h)</span>
+      <input id="t-fluid" type="number" inputmode="decimal" min="0" step="10">
+    </label>
+
+    <h2>Export</h2>
+    <button id="btn-export" class="btn" type="button">Zobraziť dáta na skopírovanie</button>
+    <textarea id="export-box" class="box" readonly rows="8" placeholder="Sem sa vypíše JSON."></textarea>
+    <button id="btn-copy" class="btn" type="button">Kopírovať</button>
+
+    <h2>Import</h2>
+    <textarea id="import-box" class="box" rows="8" placeholder="Sem vlož JSON z exportu."></textarea>
+    <button id="btn-import" class="btn btn-danger" type="button">Nahradiť dáta importom</button>
+
+    <div class="note" id="app-ver"></div>
+  </section>
+
+</main>
+
+<nav id="nav">
+  <button type="button" data-go="log">Zápis</button>
+  <button type="button" data-go="sum">Prehľad</button>
+  <button type="button" data-go="hist">História</button>
+  <button type="button" data-go="set">Nastavenia</button>
+</nav>
+
+<div id="toast" class="hidden"></div>
+
+<script src="./items.js"></script>
+<script src="./app.js"></script>
+</body>
+</html>

@@ -1,0 +1,356 @@
+/* ==========================================================
+   BBU Fuel Tracker — tmavý vzhľad pre nočné behanie
+   ========================================================== */
+
+:root {
+  --bg: #0b0d10;
+  --surface: #161a20;
+  --surface-2: #1f242c;
+  --line: #2c333e;
+  --text: #f3f6f9;
+  --muted: #98a2b0;
+  --ok: #37d67a;
+  --under: #ffb020;
+  --danger: #ff5a52;
+
+  --pad: 14px;
+  --safe-l: env(safe-area-inset-left, 0px);
+  --safe-r: env(safe-area-inset-right, 0px);
+  --safe-t: env(safe-area-inset-top, 0px);
+  --safe-b: env(safe-area-inset-bottom, 0px);
+  --nav-h: 66px;
+}
+
+* { box-sizing: border-box; }
+
+html {
+  -webkit-text-size-adjust: 100%;
+  background: var(--bg);
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  font-size: 17px;
+  line-height: 1.3;
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+  overscroll-behavior-y: none;
+  padding-bottom: calc(var(--nav-h) + var(--safe-b) + 16px);
+}
+
+.hidden { display: none !important; }
+
+/* ---------- Hlavička ---------- */
+
+#hdr {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: var(--surface);
+  border-bottom: 1px solid var(--line);
+  padding: calc(10px + var(--safe-t)) calc(var(--pad) + var(--safe-r)) 12px calc(var(--pad) + var(--safe-l));
+}
+
+.hdr-label {
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+
+#since {
+  font-size: 3.6rem;
+  font-weight: 700;
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  font-variant-numeric: tabular-nums;
+}
+
+.hdr-sub {
+  color: var(--muted);
+  font-size: 0.9rem;
+  margin-top: 2px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ---------- Obsah ---------- */
+
+.wrap {
+  padding: 16px calc(var(--pad) + var(--safe-r)) 24px calc(var(--pad) + var(--safe-l));
+}
+
+h2 {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--muted);
+  margin: 26px 0 10px;
+}
+
+.screen > h2:first-child { margin-top: 4px; }
+
+.cat-title {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--muted);
+  margin: 22px 0 10px;
+}
+
+.note {
+  color: var(--muted);
+  font-size: 0.9rem;
+  margin: 10px 0 14px;
+}
+
+/* ---------- Tlačidlá ---------- */
+
+.btn {
+  display: block;
+  width: 100%;
+  min-height: 80px;
+  margin-bottom: 12px;
+  padding: 14px;
+  background: var(--surface-2);
+  color: var(--text);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  font-family: inherit;
+  font-size: 1.15rem;
+  font-weight: 600;
+  touch-action: manipulation;
+}
+
+.btn:active { background: #2a313b; }
+
+.btn:disabled {
+  opacity: 0.4;
+}
+
+.btn-undo {
+  background: var(--surface);
+}
+
+.btn-danger {
+  color: var(--danger);
+  border-color: #4a2a2a;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 10px;
+}
+
+.item {
+  min-height: 88px;
+  padding: 12px 10px;
+  background: var(--surface-2);
+  color: var(--text);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  font-family: inherit;
+  text-align: left;
+  touch-action: manipulation;
+}
+
+.item:active { background: #2a313b; }
+
+.item .n {
+  display: block;
+  font-size: 1.1rem;
+  font-weight: 600;
+  line-height: 1.15;
+}
+
+.item .m {
+  display: block;
+  margin-top: 6px;
+  font-size: 0.8rem;
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.item.flash {
+  background: var(--ok);
+  border-color: var(--ok);
+  color: #06210f;
+}
+
+.item.flash .m { color: #06210f; }
+
+/* ---------- Riadky prehľadu ---------- */
+
+.row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.row .k { color: var(--muted); font-size: 0.95rem; }
+
+.row .v {
+  font-size: 1.7rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.row .v small {
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: var(--muted);
+}
+
+.v.ok { color: var(--ok); }
+.v.under { color: var(--under); }
+
+/* ---------- História ---------- */
+
+.hist {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.hist .t {
+  font-variant-numeric: tabular-nums;
+  font-size: 1.05rem;
+  min-width: 82px;
+}
+
+.hist .n { flex: 1; font-size: 1.05rem; }
+
+.hist .s {
+  display: block;
+  color: var(--muted);
+  font-size: 0.8rem;
+}
+
+.del {
+  flex: 0 0 auto;
+  width: 64px;
+  height: 56px;
+  background: transparent;
+  color: var(--danger);
+  border: 1px solid #4a2a2a;
+  border-radius: 12px;
+  font-family: inherit;
+  font-size: 1.3rem;
+}
+
+.del:active { background: #2a1c1c; }
+
+/* ---------- Formulár ---------- */
+
+.field {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  min-height: 80px;
+  padding: 0 14px;
+  margin-bottom: 12px;
+  background: var(--surface-2);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+}
+
+.field span { font-size: 1.05rem; }
+
+.field input {
+  width: 120px;
+  padding: 12px;
+  background: var(--bg);
+  color: var(--text);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  font-family: inherit;
+  font-size: 1.25rem;
+  font-weight: 600;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+  -webkit-user-select: text;
+  user-select: text;
+}
+
+.box {
+  display: block;
+  width: 100%;
+  margin-bottom: 12px;
+  padding: 12px;
+  background: var(--surface-2);
+  color: var(--text);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  font-family: ui-monospace, Menlo, Consolas, monospace;
+  font-size: 16px;
+  line-height: 1.35;
+  -webkit-user-select: text;
+  user-select: text;
+}
+
+/* ---------- Spodná navigácia ---------- */
+
+#nav {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 20;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  background: var(--surface);
+  border-top: 1px solid var(--line);
+  padding-bottom: var(--safe-b);
+}
+
+#nav button {
+  min-height: var(--nav-h);
+  background: none;
+  border: none;
+  color: var(--muted);
+  font-family: inherit;
+  font-size: 0.9rem;
+  touch-action: manipulation;
+}
+
+#nav button.on {
+  color: var(--text);
+  box-shadow: inset 0 3px 0 var(--ok);
+}
+
+/* ---------- Toast ---------- */
+
+#toast {
+  position: fixed;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: calc(var(--nav-h) + var(--safe-b) + 16px);
+  z-index: 30;
+  max-width: 90vw;
+  padding: 14px 18px;
+  background: #2f3742;
+  color: var(--text);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  font-size: 1rem;
+  text-align: center;
+}
+
+/* ---------- Prístupnosť ---------- */
+
+button:focus-visible,
+input:focus-visible,
+textarea:focus-visible {
+  outline: 3px solid var(--ok);
+  outline-offset: 2px;
+}
