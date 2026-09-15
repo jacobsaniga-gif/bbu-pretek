@@ -1,356 +1,367 @@
-/* ==========================================================
-   BBU Fuel Tracker — tmavý vzhľad pre nočné behanie
-   ========================================================== */
-
+/* Nočná paleta: teplé tóny, žiadna modrá — nekazí adaptáciu očí pod čelovkou. */
 :root {
-  --bg: #0b0d10;
-  --surface: #161a20;
-  --surface-2: #1f242c;
-  --line: #2c333e;
-  --text: #f3f6f9;
-  --muted: #98a2b0;
-  --ok: #37d67a;
-  --under: #ffb020;
-  --danger: #ff5a52;
-
-  --pad: 14px;
-  --safe-l: env(safe-area-inset-left, 0px);
-  --safe-r: env(safe-area-inset-right, 0px);
-  --safe-t: env(safe-area-inset-top, 0px);
-  --safe-b: env(safe-area-inset-bottom, 0px);
-  --nav-h: 66px;
+  --bg:      #0E0D0B;
+  --surface: #1B1815;
+  --line:    #2E2A25;
+  --text:    #F2EBDF;
+  --muted:   #9A9186;
+  --amber:   #F2A03D;
+  --ok:      #7FB069;
+  --low:     #E4553F;
 }
 
-* { box-sizing: border-box; }
+* { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
 
-html {
-  -webkit-text-size-adjust: 100%;
+html, body {
+  margin: 0;
+  padding: 0;
   background: var(--bg);
+  color: var(--text);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-size: 17px;
+  line-height: 1.4;
+  overscroll-behavior: none;
+  -webkit-user-select: none;
+  user-select: none;
+  touch-action: manipulation;
 }
 
 body {
-  margin: 0;
-  background: var(--bg);
-  color: var(--text);
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-  font-size: 17px;
-  line-height: 1.3;
-  -webkit-user-select: none;
-  user-select: none;
-  -webkit-tap-highlight-color: transparent;
-  touch-action: manipulation;
-  overscroll-behavior-y: none;
-  padding-bottom: calc(var(--nav-h) + var(--safe-b) + 16px);
+  padding-bottom: calc(76px + env(safe-area-inset-bottom));
 }
 
-.hidden { display: none !important; }
-
-/* ---------- Hlavička ---------- */
-
-#hdr {
-  position: sticky;
-  top: 0;
-  z-index: 10;
-  background: var(--surface);
-  border-bottom: 1px solid var(--line);
-  padding: calc(10px + var(--safe-t)) calc(var(--pad) + var(--safe-r)) 12px calc(var(--pad) + var(--safe-l));
+main {
+  padding: calc(env(safe-area-inset-top) + 12px) 14px 24px;
+  max-width: 640px;
+  margin: 0 auto;
 }
 
-.hdr-label {
-  color: var(--muted);
-  font-size: 0.85rem;
-}
-
-#since {
-  font-size: 3.6rem;
-  font-weight: 700;
-  line-height: 1.05;
-  letter-spacing: -0.02em;
-  font-variant-numeric: tabular-nums;
-}
-
-.hdr-sub {
-  color: var(--muted);
-  font-size: 0.9rem;
-  margin-top: 2px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-/* ---------- Obsah ---------- */
-
-.wrap {
-  padding: 16px calc(var(--pad) + var(--safe-r)) 24px calc(var(--pad) + var(--safe-l));
-}
+.hidden { display: none; }
 
 h2 {
-  font-size: 1rem;
+  font-size: 15px;
   font-weight: 600;
   color: var(--muted);
-  margin: 26px 0 10px;
-}
-
-.screen > h2:first-child { margin-top: 4px; }
-
-.cat-title {
-  font-size: 1rem;
-  font-weight: 600;
-  color: var(--muted);
-  margin: 22px 0 10px;
+  margin: 28px 0 10px;
 }
 
 .note {
   color: var(--muted);
-  font-size: 0.9rem;
-  margin: 10px 0 14px;
+  font-size: 14px;
+  margin: 8px 0 0;
 }
 
-/* ---------- Tlačidlá ---------- */
-
-.btn {
-  display: block;
-  width: 100%;
-  min-height: 80px;
-  margin-bottom: 12px;
-  padding: 14px;
-  background: var(--surface-2);
-  color: var(--text);
-  border: 1px solid var(--line);
-  border-radius: 14px;
-  font-family: inherit;
-  font-size: 1.15rem;
-  font-weight: 600;
-  touch-action: manipulation;
-}
-
-.btn:active { background: #2a313b; }
-
-.btn:disabled {
-  opacity: 0.4;
-}
-
-.btn-undo {
+/* ---------- hero: číslo, podľa ktorého sa rozhoduješ ---------- */
+.hero {
   background: var(--surface);
+  border-radius: 14px;
+  padding: 16px;
+  margin-bottom: 18px;
 }
 
-.btn-danger {
-  color: var(--danger);
-  border-color: #4a2a2a;
+.hero-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.hero-label {
+  margin: 0;
+  font-size: 14px;
+  color: var(--muted);
+}
+
+.hero-value {
+  margin: 2px 0 0;
+  font-size: 46px;
+  font-weight: 700;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+  color: var(--amber);
+}
+
+.undo {
+  flex: 0 0 auto;
+  min-width: 96px;
+  min-height: 62px;
+  border: 1px solid var(--line);
+  background: transparent;
+  color: var(--muted);
+  border-radius: 12px;
+  font-size: 14px;
+  font-family: inherit;
+  line-height: 1.2;
+}
+
+.undo:active { background: var(--line); }
+
+.hero-strip {
+  display: flex;
+  gap: 8px;
+  margin-top: 16px;
+  padding-top: 14px;
+  border-top: 1px solid var(--line);
+}
+
+.hero-strip div { flex: 1; text-align: center; }
+
+.hero-strip span {
+  display: block;
+  font-size: 19px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+.hero-strip small {
+  display: block;
+  font-size: 12px;
+  color: var(--muted);
+  margin-top: 2px;
+}
+
+/* ---------- tlačidlá položiek ---------- */
+.cat-title {
+  font-size: 13px;
+  color: var(--muted);
+  margin: 22px 0 8px;
 }
 
 .grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  grid-template-columns: repeat(2, 1fr);
   gap: 10px;
 }
 
 .item {
-  min-height: 88px;
-  padding: 12px 10px;
-  background: var(--surface-2);
-  color: var(--text);
+  min-height: 84px;
+  padding: 10px;
   border: 1px solid var(--line);
-  border-radius: 14px;
+  border-radius: 12px;
+  background: var(--surface);
+  color: var(--text);
   font-family: inherit;
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 1.25;
   text-align: left;
-  touch-action: manipulation;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: background 120ms, border-color 120ms;
 }
 
-.item:active { background: #2a313b; }
-
-.item .n {
+.item small {
   display: block;
-  font-size: 1.1rem;
-  font-weight: 600;
-  line-height: 1.15;
-}
-
-.item .m {
-  display: block;
-  margin-top: 6px;
-  font-size: 0.8rem;
   color: var(--muted);
+  font-size: 12px;
+  font-weight: 400;
   font-variant-numeric: tabular-nums;
 }
 
-.item.flash {
+.item:active,
+.item.hit {
   background: var(--ok);
   border-color: var(--ok);
-  color: #06210f;
+  color: #10200A;
 }
 
-.item.flash .m { color: #06210f; }
+.item.hit small { color: #10200A; }
 
-/* ---------- Riadky prehľadu ---------- */
-
-.row {
+/* ---------- prehľad ---------- */
+.clockbar {
   display: flex;
-  align-items: baseline;
-  justify-content: space-between;
   gap: 10px;
-  padding: 14px 0;
-  border-bottom: 1px solid var(--line);
+  background: var(--surface);
+  border-radius: 14px;
+  padding: 14px;
 }
 
-.row .k { color: var(--muted); font-size: 0.95rem; }
+.clockbar div { flex: 1; text-align: center; }
 
-.row .v {
-  font-size: 1.7rem;
+.clockbar span {
+  display: block;
+  font-size: 26px;
   font-weight: 700;
   font-variant-numeric: tabular-nums;
-  white-space: nowrap;
 }
 
-.row .v small {
-  font-size: 0.95rem;
-  font-weight: 500;
+.clockbar small {
+  display: block;
+  font-size: 12px;
   color: var(--muted);
 }
 
-.v.ok { color: var(--ok); }
-.v.under { color: var(--under); }
+.cards { display: flex; gap: 10px; }
 
-/* ---------- História ---------- */
-
-.hist {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 12px 0;
-  border-bottom: 1px solid var(--line);
-}
-
-.hist .t {
-  font-variant-numeric: tabular-nums;
-  font-size: 1.05rem;
-  min-width: 82px;
-}
-
-.hist .n { flex: 1; font-size: 1.05rem; }
-
-.hist .s {
-  display: block;
-  color: var(--muted);
-  font-size: 0.8rem;
-}
-
-.del {
-  flex: 0 0 auto;
-  width: 64px;
-  height: 56px;
-  background: transparent;
-  color: var(--danger);
-  border: 1px solid #4a2a2a;
-  border-radius: 12px;
-  font-family: inherit;
-  font-size: 1.3rem;
-}
-
-.del:active { background: #2a1c1c; }
-
-/* ---------- Formulár ---------- */
-
-.field {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  min-height: 80px;
-  padding: 0 14px;
-  margin-bottom: 12px;
-  background: var(--surface-2);
-  border: 1px solid var(--line);
-  border-radius: 14px;
-}
-
-.field span { font-size: 1.05rem; }
-
-.field input {
-  width: 120px;
-  padding: 12px;
-  background: var(--bg);
-  color: var(--text);
-  border: 1px solid var(--line);
-  border-radius: 10px;
-  font-family: inherit;
-  font-size: 1.25rem;
-  font-weight: 600;
-  text-align: right;
-  font-variant-numeric: tabular-nums;
-  -webkit-user-select: text;
-  user-select: text;
-}
-
-.box {
-  display: block;
-  width: 100%;
-  margin-bottom: 12px;
-  padding: 12px;
-  background: var(--surface-2);
-  color: var(--text);
-  border: 1px solid var(--line);
-  border-radius: 12px;
-  font-family: ui-monospace, Menlo, Consolas, monospace;
-  font-size: 16px;
-  line-height: 1.35;
-  -webkit-user-select: text;
-  user-select: text;
-}
-
-/* ---------- Spodná navigácia ---------- */
-
-#nav {
-  position: fixed;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  z-index: 20;
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
+.card {
+  flex: 1;
   background: var(--surface);
-  border-top: 1px solid var(--line);
-  padding-bottom: var(--safe-b);
-}
-
-#nav button {
-  min-height: var(--nav-h);
-  background: none;
-  border: none;
-  color: var(--muted);
-  font-family: inherit;
-  font-size: 0.9rem;
-  touch-action: manipulation;
-}
-
-#nav button.on {
-  color: var(--text);
-  box-shadow: inset 0 3px 0 var(--ok);
-}
-
-/* ---------- Toast ---------- */
-
-#toast {
-  position: fixed;
-  left: 50%;
-  transform: translateX(-50%);
-  bottom: calc(var(--nav-h) + var(--safe-b) + 16px);
-  z-index: 30;
-  max-width: 90vw;
-  padding: 14px 18px;
-  background: #2f3742;
-  color: var(--text);
-  border: 1px solid var(--line);
   border-radius: 12px;
-  font-size: 1rem;
+  padding: 14px 10px;
   text-align: center;
 }
 
-/* ---------- Prístupnosť ---------- */
+.card b {
+  display: block;
+  font-size: 24px;
+  font-variant-numeric: tabular-nums;
+}
 
-button:focus-visible,
-input:focus-visible,
-textarea:focus-visible {
-  outline: 3px solid var(--ok);
-  outline-offset: 2px;
+.card small {
+  display: block;
+  font-size: 12px;
+  color: var(--muted);
+  margin-top: 4px;
+}
+
+.card em {
+  display: block;
+  font-style: normal;
+  font-size: 12px;
+  color: var(--muted);
+  margin-top: 6px;
+  font-variant-numeric: tabular-nums;
+}
+
+.rows {
+  background: var(--surface);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 13px 14px;
+  border-bottom: 1px solid var(--line);
+}
+
+.row:last-child { border-bottom: 0; }
+.row b { font-variant-numeric: tabular-nums; font-weight: 600; }
+.row span { color: var(--muted); font-size: 15px; }
+
+/* ---------- história ---------- */
+.hist {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  background: var(--surface);
+  border-radius: 12px;
+  padding: 12px 14px;
+  margin-bottom: 8px;
+}
+
+.hist div { min-width: 0; }
+.hist strong { display: block; font-weight: 500; font-size: 15px; }
+.hist small { color: var(--muted); font-size: 13px; font-variant-numeric: tabular-nums; }
+
+.del {
+  flex: 0 0 auto;
+  width: 46px;
+  height: 46px;
+  border-radius: 10px;
+  border: 1px solid var(--line);
+  background: transparent;
+  color: var(--low);
+  font-size: 20px;
+  font-family: inherit;
+}
+
+.del:active { background: var(--line); }
+
+/* ---------- formuláre ---------- */
+label {
+  display: block;
+  font-size: 14px;
+  color: var(--muted);
+  margin: 14px 0 6px;
+}
+
+input, textarea {
+  width: 100%;
+  padding: 13px;
+  font-size: 17px;
+  font-family: inherit;
+  color: var(--text);
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  -webkit-user-select: text;
+  user-select: text;
+}
+
+textarea { margin-top: 10px; resize: vertical; }
+
+.btn {
+  width: 100%;
+  min-height: 52px;
+  margin-top: 12px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--surface);
+  color: var(--text);
+  font-family: inherit;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.btn:active { background: var(--line); }
+.btn.danger { color: var(--low); }
+
+.version {
+  color: var(--line);
+  font-size: 12px;
+  text-align: center;
+  margin: 36px 0 0;
+}
+
+/* ---------- spodná lišta ---------- */
+#tabs {
+  position: fixed;
+  left: 0; right: 0; bottom: 0;
+  display: flex;
+  background: var(--surface);
+  border-top: 1px solid var(--line);
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+#tabs button {
+  flex: 1;
+  min-height: 60px;
+  border: 0;
+  background: transparent;
+  color: var(--muted);
+  font-family: inherit;
+  font-size: 13px;
+}
+
+#tabs button.active { color: var(--amber); }
+
+/* ---------- potvrdenie akcie ---------- */
+.toast {
+  position: fixed;
+  left: 50%;
+  bottom: calc(86px + env(safe-area-inset-bottom));
+  transform: translateX(-50%) translateY(14px);
+  background: var(--ok);
+  color: #10200A;
+  padding: 11px 20px;
+  border-radius: 999px;
+  font-size: 15px;
+  font-weight: 600;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 160ms, transform 160ms;
+  z-index: 50;
+  max-width: 90%;
+  text-align: center;
+}
+
+.toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+@media (prefers-reduced-motion: reduce) {
+  * { transition: none !important; }
 }

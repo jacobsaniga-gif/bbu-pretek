@@ -2,96 +2,127 @@
 <html lang="sk">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1, user-scalable=no">
+<meta name="theme-color" content="#0E0D0B">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
 <meta name="apple-mobile-web-app-title" content="BBU Fuel">
-<meta name="theme-color" content="#0b0d10">
-<meta name="format-detection" content="telephone=no">
-<title>BBU Fuel Tracker</title>
-<link rel="manifest" href="./manifest.webmanifest">
 <link rel="apple-touch-icon" href="./apple-touch-icon.png">
 <link rel="icon" href="./icon-192.png">
+<link rel="manifest" href="./manifest.webmanifest">
 <link rel="stylesheet" href="./style.css">
+<title>BBU Fuel</title>
 </head>
 <body>
 
-<header id="hdr">
-  <div class="hdr-label">Od posledného príjmu</div>
-  <div id="since">–:––</div>
-  <div id="since-sub" class="hdr-sub">zatiaľ žiadny záznam</div>
-</header>
+<div id="toast" class="toast"></div>
 
-<main>
+<main id="main">
 
-  <!-- ---------- 1. LOGOVANIE ---------- -->
-  <section id="screen-log" class="screen wrap">
-    <button id="undo" class="btn btn-undo" type="button">Späť</button>
-    <div id="cats"></div>
+  <!-- ======================= LOGOVANIE ======================= -->
+  <section class="screen" id="screen-log">
+    <div class="hero">
+      <div class="hero-row">
+        <div>
+          <p class="hero-label">Od posledného príjmu</p>
+          <p class="hero-value" id="sinceLast">–</p>
+        </div>
+        <button class="undo" id="undoBtn">Vrátiť<br>posledné</button>
+      </div>
+      <div class="hero-strip">
+        <div><span id="stripCarbs">–</span><small>sacharidy/h</small></div>
+        <div><span id="stripSodium">–</span><small>sodík/h</small></div>
+        <div><span id="stripFluid">–</span><small>tekutiny/h</small></div>
+      </div>
+    </div>
+    <div id="itemGrid"></div>
   </section>
 
-  <!-- ---------- 2. PREHĽAD ---------- -->
-  <section id="screen-sum" class="screen wrap hidden">
-    <h2>Posledná hodina</h2>
-    <div id="hour-rows"></div>
+  <!-- ======================= PREHĽAD ======================= -->
+  <section class="screen hidden" id="screen-now">
+    <div class="clockbar">
+      <div><span id="raceClock">–</span><small>čas preteku</small></div>
+      <div><span id="sinceLast2">–</span><small>od posledného</small></div>
+    </div>
+
+    <h2>Zaostávanie oproti plánu</h2>
+    <p class="note">Koľko ti chýba alebo prebýva od štartu. Mínus znamená, že máš dojesť.</p>
+    <div class="cards">
+      <div class="card"><b id="defCarbs">–</b><small>sacharidy</small><em id="subCarbs">–</em></div>
+      <div class="card"><b id="defSodium">–</b><small>sodík</small><em id="subSodium">–</em></div>
+      <div class="card"><b id="defFluid">–</b><small>tekutiny</small><em id="subFluid">–</em></div>
+    </div>
+
+    <h2>Posledných 60 minút</h2>
+    <div class="rows" id="hourRows">
+      <div class="row"><span>Sacharidy</span><b id="hCarbs">–</b></div>
+      <div class="row"><span>Sodík</span><b id="hSodium">–</b></div>
+      <div class="row"><span>Tekutiny</span><b id="hFluid">–</b></div>
+    </div>
+
+    <h2>Kofeín</h2>
+    <div class="rows">
+      <div class="row"><span>Spolu</span><b id="caffTotal">–</b></div>
+      <div class="row"><span>Od posledného</span><b id="caffSince">–</b></div>
+    </div>
 
     <h2>Celkovo od štartu</h2>
-    <div id="total-rows"></div>
-
-    <h2>Pretek</h2>
-    <div id="race-rows"></div>
+    <div class="rows">
+      <div class="row"><span>Sacharidy</span><b id="tCarbs">–</b></div>
+      <div class="row"><span>Sodík</span><b id="tSodium">–</b></div>
+      <div class="row"><span>Tekutiny</span><b id="tFluid">–</b></div>
+      <div class="row"><span>Energia</span><b id="tKcal">–</b></div>
+      <div class="row"><span>Priemer sacharidov</span><b id="avgCarbs">–</b></div>
+    </div>
   </section>
 
-  <!-- ---------- 3. HISTÓRIA ---------- -->
-  <section id="screen-hist" class="screen wrap hidden">
+  <!-- ======================= HISTÓRIA ======================= -->
+  <section class="screen hidden" id="screen-history">
     <h2>História</h2>
-    <div id="hist-list"></div>
+    <p class="note" id="histCount">Zatiaľ nič.</p>
+    <div id="histList"></div>
   </section>
 
-  <!-- ---------- 4. NASTAVENIA ---------- -->
-  <section id="screen-set" class="screen wrap hidden">
+  <!-- ======================= NASTAVENIA ======================= -->
+  <section class="screen hidden" id="screen-settings">
     <h2>Pretek</h2>
-    <div id="race-state" class="note"></div>
-    <button id="btn-start" class="btn" type="button">Štart preteku</button>
-    <button id="btn-reset" class="btn btn-danger" type="button">Reset preteku</button>
+    <label for="startInput">Čas štartu</label>
+    <input type="datetime-local" id="startInput">
+    <button class="btn" id="startSave">Uložiť čas štartu</button>
+    <p class="note">Ak si na štarte zabudol ťuknúť, dopíš čas tu. Bez neho sa nepočíta zaostávanie ani priemer.</p>
 
     <h2>Ciele na hodinu</h2>
-    <label class="field">
-      <span>Sacharidy (g/h)</span>
-      <input id="t-carbs" type="number" inputmode="decimal" min="0" step="1">
-    </label>
-    <label class="field">
-      <span>Sodík (mg/h)</span>
-      <input id="t-sodium" type="number" inputmode="decimal" min="0" step="10">
-    </label>
-    <label class="field">
-      <span>Tekutiny (ml/h)</span>
-      <input id="t-fluid" type="number" inputmode="decimal" min="0" step="10">
-    </label>
+    <label for="tCarbsIn">Sacharidy (g/h)</label>
+    <input type="number" id="tCarbsIn" inputmode="numeric">
+    <label for="tSodiumIn">Sodík (mg/h)</label>
+    <input type="number" id="tSodiumIn" inputmode="numeric">
+    <label for="tFluidIn">Tekutiny (ml/h)</label>
+    <input type="number" id="tFluidIn" inputmode="numeric">
+    <label for="tCaffIn">Strop kofeínu (mg)</label>
+    <input type="number" id="tCaffIn" inputmode="numeric">
+    <button class="btn" id="targetsSave">Uložiť ciele</button>
 
-    <h2>Export</h2>
-    <button id="btn-export" class="btn" type="button">Zobraziť dáta na skopírovanie</button>
-    <textarea id="export-box" class="box" readonly rows="8" placeholder="Sem sa vypíše JSON."></textarea>
-    <button id="btn-copy" class="btn" type="button">Kopírovať</button>
+    <h2>Záloha</h2>
+    <button class="btn" id="exportBtn">Zobraziť zálohu</button>
+    <textarea id="dataBox" rows="6" placeholder="Sem vlož zálohu a daj Načítať."></textarea>
+    <button class="btn" id="importBtn">Načítať zálohu</button>
+    <p class="note">Zálohu si pošli sám sebe. Zoznam jedla v nej nie je — ten je v súbore items.js.</p>
 
-    <h2>Import</h2>
-    <textarea id="import-box" class="box" rows="8" placeholder="Sem vlož JSON z exportu."></textarea>
-    <button id="btn-import" class="btn btn-danger" type="button">Nahradiť dáta importom</button>
+    <h2>Vymazanie</h2>
+    <button class="btn danger" id="resetBtn">Vymazať všetky záznamy</button>
+    <p class="note">Zmaže záznamy aj čas štartu. Ciele zostanú.</p>
 
-    <div class="note" id="app-ver"></div>
+    <p class="version">BBU Fuel · dáta zostávajú v tomto telefóne</p>
   </section>
 
 </main>
 
-<nav id="nav">
-  <button type="button" data-go="log">Zápis</button>
-  <button type="button" data-go="sum">Prehľad</button>
-  <button type="button" data-go="hist">História</button>
-  <button type="button" data-go="set">Nastavenia</button>
+<nav id="tabs">
+  <button data-screen="log" class="active">Jedlo</button>
+  <button data-screen="now">Prehľad</button>
+  <button data-screen="history">História</button>
+  <button data-screen="settings">Nastavenia</button>
 </nav>
-
-<div id="toast" class="hidden"></div>
 
 <script src="./items.js"></script>
 <script src="./app.js"></script>

@@ -1,153 +1,81 @@
-# BBU Fuel Tracker
+# BBU Fuel
 
-Offline appka na sledovanie príjmu jedla a pitia počas ultramaratónu.
-Čisté HTML/CSS/JS, žiadny build, žiadny backend, dáta v `localStorage` telefónu.
-
-Postavené pre Big Bear's Ultra 118 km, štart 19. 9. 2026 o 6:00.
-
-## Súbory
-
-```
-index.html            kostra 4 obrazoviek
-style.css             tmavý vzhľad, tlačidlá min. 80 px
-app.js                logika, výpočty, localStorage
-items.js              zoznam položiek — TOTO SI VYPLNÍŠ SÁM
-manifest.webmanifest  PWA manifest
-sw.js                 service worker (offline cache)
-icon-192.png          doplniť
-icon-512.png          doplniť
-apple-touch-icon.png  doplniť (180×180)
-```
-
-Ikony v repozitári zatiaľ nie sú. Bez nich appka funguje, len bude mať
-na ploche generický náhľad. Service worker si s chýbajúcimi ikonami poradí.
-
-## Vyplnenie položiek
-
-Otvor `items.js` a doplň si 30–40 riadkov podľa vzoru, ktorý je v súbore.
-Hodnoty `carbs` (g), `sodium` (mg), `fluid` (ml) a `kcal` sú vždy **na jednu
-porciu** — jedno ťuknutie na tlačidlo zapíše presne tieto čísla.
-
-`id` po prvom použití už nemeň, viažu sa naň staré záznamy v histórii.
+Sledovanie príjmu jedla a pitia počas ultra. Ťukneš na položku, appka spočíta,
+koľko máš v sebe a či zaostávaš za plánom. Funguje offline, dáta zostávajú
+v telefóne, nikam sa nič neposiela.
 
 ## Nasadenie na GitHub Pages
 
-1. Vytvor repozitár, napríklad `bbu-fuel`.
-2. Nakopíruj doň všetky súbory z tohto priečinka (do koreňa repozitára,
-   nie do podpriečinka).
-3. Commit a push do vetvy `main`.
-4. V repozitári: **Settings → Pages → Build and deployment → Source: Deploy
-   from a branch**, vetva `main`, priečinok `/ (root)`. Ulož.
-5. Po minúte až dvoch je appka na `https://TVOJE-MENO.github.io/bbu-fuel/`.
+1. Nahraj všetky súbory do **koreňa** repozitára (nie do podpriečinka).
+   Repozitár musí byť **verejný** — Pages na súkromných repách vyžadujú platený plán.
+2. Settings → Pages → Source: **Deploy from a branch** → `main` → `/ (root)` → Save.
+3. Po asi minúte dostaneš adresu `https://tvojemeno.github.io/nazov-repa/`.
 
-Všetky cesty v projekte sú relatívne (`./…`), takže appka funguje
-v podadresári bez akejkoľvek úpravy. Nikdy nepridávaj cesty začínajúce
-lomítkom — service worker by sa nezaregistroval.
-
-### Pri každej ďalšej zmene kódu
-
-Zvýš verziu v prvom riadku `sw.js`:
-
-```js
-const CACHE = 'bbu-v2';
-```
-
-Bez toho ti telefón bude servírovať starú verziu z cache. Po pushnutí otvor
-appku, zavri ju a otvor znova — druhé otvorenie už beží na novej verzii.
+Netestuj to cez lokálny server a LAN IP z telefónu — service worker potrebuje
+HTTPS alebo localhost, a `http://192.168.x.x` nie je ani jedno. Testuj rovno
+na tej Pages adrese.
 
 ## Inštalácia na iPhone
 
-1. Otvor adresu appky v **Safari** (nie v Chrome, nie cez odkaz v inej appke).
-2. Tlačidlo Zdieľať → **Pridať na plochu** → Pridať.
-3. Spusti appku z plochy. Beží na celú obrazovku, bez adresného riadka.
-4. Ešte doma, na Wi-Fi, nechaj appku raz načítať a poklikať — vtedy si
-   service worker stiahne všetky súbory do cache.
-5. Otestuj offline režim podľa zoznamu nižšie.
+1. Otvor adresu v **Safari** (v Chrome sa to nedá).
+2. Ťukni na ikonu **Zdieľať** (štvorček so šípkou nahor).
+3. Scrolluj dole a vyber **Pridať na plochu**.
+4. Potvrď **Pridať**.
 
-Appka nemá prihlasovanie ani synchronizáciu. Dáta žijú v tomto jednom
-telefóne, v tejto jednej appke na ploche. Ak appku z plochy zmažeš,
-zmažú sa aj dáta. Pred pretekom si sprav export a ulož si ho do poznámok.
+**Appka na ploche má vlastné úložisko, oddelené od Safari.** Čokoľvek vyplníš
+v prehliadači, v appke neuvidíš. Takže najprv inštalácia, až potom nastavenia.
 
-## Používanie počas preteku
+## Vlastný zoznam jedla
 
-- **Zápis** — ťukni na položku, ktorú si práve zjedol alebo vypil. Tlačidlo
-  na sekundu zozelenie. Hore je stále vidieť, koľko času uplynulo od
-  posledného príjmu. Zlé ťuknutie zrušíš tlačidlom Späť.
-- **Prehľad** — kĺzavé okno posledných 60 minút oproti cieľom, plus celkové
-  súčty a priemer na hodinu od štartu. Zelená = si na cieli, oranžová = pod ním.
-- **História** — všetky záznamy od najnovšieho, s možnosťou zmazať jeden.
-- **Nastavenia** — štart preteku, ciele na hodinu, export a import.
+Uprav `items.js`. Každá položka = jedna porcia tak, ako ju reálne zješ.
 
-Na štarte v Žiline nezabudni ťuknúť na **Štart preteku**. Bez neho
-nefunguje uplynulý čas ani priemery na hodinu (súčty áno).
+```js
+{ id: 'moj-gel', name: 'Môj gél (1 ks)', cat: 'gel',
+  carbs: 25, sodium: 50, fluid: 0, kcal: 100, caffeine: 0 }
+```
 
-Predvolené ciele: 70 g/h sacharidy, 600 mg/h sodík, 500 ml/h tekutiny.
+Kategórie: `gel`, `drink`, `solid`, `aid`.
 
-## Ako appka počíta čas
+**Sodík z etikety:** na obaloch býva soľ, nie sodík.
+`sodík (mg) = soľ (g) ÷ 2,5 × 1000`
 
-Uplynulý čas sa nikdy nedrží v bežiacom časovači. Počíta sa až v momente
-vykreslenia, ako `Date.now()` mínus uložený timestamp. Keď iOS pri zhasnutom
-displeji uspí JavaScript, nič sa nerozbije — po návrate do appky sa čísla
-prepočítajú z reálneho času. Prekresľuje sa každých 30 sekúnd a navyše
-okamžite pri návrate do appky (`visibilitychange`).
+**Pozor:** údaje sú takmer vždy na 100 g, nie na balenie. Prepočítaj na porciu.
 
-Do `localStorage` sa ukladá po každej jednej zmene stavu, nie na konci
-a nie časovačom.
+`id` po štarte preteku už nikdy nemeň — staré záznamy by stratili väzbu.
 
-## Kontrolný zoznam na otestovanie
+## Po každej zmene súborov
 
-Prejdi celý zoznam **do 17. 9.**, nie ráno na štarte.
+V `sw.js` zvýš verziu cache:
 
-### Základ
+```js
+var CACHE = 'bbu-v2';   // bolo bbu-v1
+```
 
-- [ ] Appka sa otvorí z plochy na celú obrazovku, bez adresného riadka Safari.
-- [ ] Obsah nezasahuje pod výrez ani pod spodný indikátor.
-- [ ] Ťuknutie na položku zapíše záznam, tlačidlo na ~1 s zozelenie.
-- [ ] Dvojité rýchle ťuknutie nezoomuje stránku.
-- [ ] Dlhé podržanie tlačidla nevyberá text ani neotvára lupu.
-- [ ] Späť zmaže posledný záznam a ukáže potvrdenie.
-- [ ] Zmazanie záznamu v Histórii sedí — zmizne presne ten riadok.
-- [ ] Prehľad sedí s ručným súčtom: zaloguj 3 známe položky a prepočítaj.
-- [ ] Ciele sa dajú prepísať a Prehľad ihneď prepne farbu pri prekročení cieľa.
-- [ ] Reset preteku vyžiada dve potvrdenia a naozaj všetko vymaže.
+Bez toho ti telefón bude ďalej servírovať starú verziu.
 
-### Offline režim — najdôležitejšie
+## Čo appka ukazuje
 
-- [ ] Na Wi-Fi otvor appku, poklikaj všetky štyri obrazovky, zavri ju.
-- [ ] Zapni **režim lietadlo** (a vypni Wi-Fi aj dáta).
-- [ ] Spusti appku z plochy → musí sa načítať kompletná, so štýlmi
-      aj s tlačidlami položiek. Žiadna dinosaurus-stránka, žiadne holé HTML.
-- [ ] Offline zaloguj 5 položiek, prepni obrazovky, zmaž jeden záznam.
-- [ ] Zavri appku (odswipovať z prepínača appiek), znova otvor, stále offline
-      → všetkých 5 záznamov tam je.
-- [ ] Zapni sieť, otvor appku → nič sa nestratilo.
+**Jedlo** — mriežka položiek. Jedno ťuknutie = jedna porcia. Hore veľkým
+písmom čas od posledného príjmu a rýchlosti za poslednú hodinu.
 
-### Prežitie dát
+**Prehľad** — zaostávanie oproti plánu od štartu (mínus = máš dojesť),
+posledná hodina proti cieľu, kofeín, celkové súčty.
 
-- [ ] Zaloguj pár položiek, **reštartuj telefón**, otvor appku → dáta sedia.
-- [ ] Odswipuj appku z prepínača, počkaj 10 minút, otvor → dáta sedia.
-- [ ] Sprav export, skopíruj JSON do poznámok, urob Reset preteku,
-      potom import → všetko sa vráti vrátane štartu.
-- [ ] Nechaj appku otvorenú 12 hodín cez noc na nabíjačke → ráno sa po
-      odomknutí čísla prepočítajú, nič nezamrzlo.
+**História** — všetky záznamy, jednotlivo zmazateľné.
 
-### Počítanie času po dlhšom zavretí — kritické
+**Nastavenia** — čas štartu (dá sa dopísať spätne), ciele na hodinu,
+záloha do textu, vymazanie.
 
-- [ ] Zaloguj položku, zapamätaj si presný čas.
-- [ ] Zamkni telefón a nechaj ho ležať **aspoň 45 minút**.
-- [ ] Odomkni, otvor appku z plochy. Číslo hore musí okamžite (do jednej
-      sekundy) ukazovať skutočný uplynulý čas, nie 0:00 a nie čas, na ktorom
-      to zamrzlo pri zamknutí.
-- [ ] Prepni na Prehľad → "Od štartu" sedí s reálnym rozdielom od štartu.
-- [ ] Zaloguj položku, počkaj 61 minút, pozri Prehľad → táto položka už
-      **nie je** v okne poslednej hodiny, ale je v celkových súčtoch.
-- [ ] Vyskúšaj to aj cez polnoc (napr. štart o 23:30, kontrola o 00:30) —
-      uplynulý čas aj kĺzavé okno musia byť správne, hodiny sa neresetujú.
+## Test pred pretekom
 
-### Nočná prevádzka
+- [ ] Režim lietadlo, appku zabiť, otvoriť z plochy → musí nabehnúť
+- [ ] Naťukať pár záznamov, reštartovať telefón → dáta musia zostať
+- [ ] Zavrieť na 20 minút, otvoriť → „od posledného príjmu" musí ukázať 20 min
+- [ ] Nastaviť čas štartu spätne → zaostávanie musí dávať zmysel
+- [ ] Odťukať to na dlhom tréningu spotenými rukami
 
-- [ ] Zníž jas na minimum a skús trafiť tlačidlá — sú dosť veľké?
-- [ ] Skús to s rukavicami alebo mokrými rukami.
-- [ ] Zapni **Nerušiť** a skontroluj, že appka funguje rovnako.
-- [ ] Nechaj batériu spadnúť do **režimu nízkej spotreby** a zopakuj test
-      uplynulého času po 45 minútach zamknutia.
+## Poznámka k pretekom
+
+Režim lietadlo je len na test offline režimu. Na BBU musí byť telefón
+**zapnutý a dostupný** — letecký mód aj vybitá batéria znamenajú riziko
+diskvalifikácie. Zober powerbanku, nabíjačky na staniciach nie sú.
