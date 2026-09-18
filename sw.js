@@ -1,6 +1,6 @@
 /* Po KAŽDEJ zmene ktoréhokoľvek súboru zvýš toto číslo (bbu-v2, bbu-v3, ...).
    Inak ti telefón bude ďalej servírovať starú verziu. */
-var CACHE = 'bbu-v3';
+var CACHE = 'bbu-v4';
 
 var ASSETS = [
   './',
