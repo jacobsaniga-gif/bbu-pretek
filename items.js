@@ -1,84 +1,69 @@
 /* =========================================================================
-   ZOZNAM JEDLA A PITIA
-   =========================================================================
+   BBU FUEL — ZOZNAM JEDLA A PITIA
+   Big Bear's Ultra 100+ , 19.–20. 9. 2026
 
-   Každá položka = JEDNA PORCIA, tak ako ju reálne zješ alebo vypiješ.
+   Každá položka = JEDNA PORCIA tak, ako ju reálne zješ alebo vypiješ.
+   Hodnoty sú z etikiet, prepočítané na porciu.
+   Sodík = soľ (g) ÷ 2,5 × 1000.
 
-     id        stabilný text bez medzier. NIKDY ho nemeň po štarte preteku,
-               inak staré záznamy stratia väzbu na položku.
-     name      čo uvidíš na tlačidle. Do zátvorky daj veľkosť porcie.
-     cat       'gel' | 'drink' | 'solid' | 'aid'
-     carbs     sacharidy v gramoch
-     sodium    sodík v miligramoch
-     fluid     tekutiny v mililitroch
-     kcal      kilokalórie
-     caffeine  kofeín v miligramoch (pole môžeš vynechať, berie sa 0)
-
-   PREPOČET SOLI NA SODÍK (na etiketách býva soľ, nie sodík):
-     sodík (mg) = soľ (g) ÷ 2,5 × 1000
-     Príklad: 0,88 g soli na 100 g  →  352 mg sodíka na 100 g
-              pri porcii 60 g       →  211 mg sodíka
-
-   POZOR: údaje na obaloch sú skoro vždy na 100 g, nie na balenie.
-   Vždy prepočítaj na skutočnú veľkosť porcie.
-
-   Hodnoty pri občerstvovačkách sú odhady bežných porcií — organizátor ich
-   nezverejňuje. Na sledovanie trendu to stačí.
+   ODHADY sú označené komentárom. Uprav ich, ak máš presnejšie údaje.
    ========================================================================= */
 
 window.ITEMS = [
 
-  /* ---------- Gély a tuby ---------- */
-  { id: 'gel',          name: 'Gél (1 ks)',              cat: 'gel',   carbs: 25, sodium: 50,  fluid: 0,   kcal: 100, caffeine: 0 },
-  { id: 'gel-kofein',   name: 'Gél s kofeínom (1 ks)',   cat: 'gel',   carbs: 25, sodium: 50,  fluid: 0,   kcal: 100, caffeine: 75 },
-  { id: 'endurosnack',  name: 'Endurosnack tuba (75 g)', cat: 'gel',   carbs: 28, sodium: 44,  fluid: 45,  kcal: 118, caffeine: 0 },
-  { id: 'kapsicka',     name: 'Detská kapsička (100 g)', cat: 'gel',   carbs: 15, sodium: 5,   fluid: 60,  kcal: 65,  caffeine: 0 },
+  /* ================= GÉLY A TUBY ================= */
+  { id: 'gu-cola',       name: 'GU Cola Me Happy',          cat: 'gel', carbs: 22, sodium: 60,  fluid: 0,   kcal: 100, caffeine: 40 },
+  { id: 'gu-melon',      name: 'GU Salted Watermelon',      cat: 'gel', carbs: 23, sodium: 125, fluid: 0,   kcal: 100, caffeine: 20 },
+  { id: 'gu-lemon',      name: 'GU Lemon Sublime',          cat: 'gel', carbs: 23, sodium: 55,  fluid: 0,   kcal: 100, caffeine: 0 },
+  { id: 'gu-roc-cherry', name: 'Roctane Cherry Lime',       cat: 'gel', carbs: 21, sodium: 125, fluid: 0,   kcal: 100, caffeine: 35 },
+  { id: 'gu-roc-kiwi',   name: 'Roctane Strawberry Kiwi',   cat: 'gel', carbs: 21, sodium: 125, fluid: 0,   kcal: 100, caffeine: 0 },
+  { id: 'gu-liquid',     name: 'GU Liquid Energy (60 g)',   cat: 'gel', carbs: 23, sodium: 75,  fluid: 35,  kcal: 95,  caffeine: 0 },
+  { id: 'high5-aqua',    name: 'High5 Aqua Orange (66 g)',  cat: 'gel', carbs: 23, sodium: 28,  fluid: 40,  kcal: 95,  caffeine: 0 },
+  { id: 'chimp-mango',   name: 'Chews Tropical Mango (35 g)', cat: 'gel', carbs: 26, sodium: 14, fluid: 0,  kcal: 117, caffeine: 0 },
+  { id: 'chimp-jahoda',  name: 'Chews Strawberry (35 g)',   cat: 'gel', carbs: 26, sodium: 14,  fluid: 0,   kcal: 123, caffeine: 0 },
+  { id: 'svacinka',      name: 'Svačinka XXL (200 g)',      cat: 'gel', carbs: 37, sodium: 40,  fluid: 150, kcal: 152, caffeine: 0 },
+  // ODHAD — kapsičku Amigo som nemal odfotenú, over si údaje na obale
+  { id: 'amigo',         name: 'Amigo kapsička (100 g)',    cat: 'gel', carbs: 15, sodium: 5,   fluid: 70,  kcal: 65,  caffeine: 0 },
 
-  /* ---------- Vlastné nápoje ---------- */
-  { id: 'voda-500',     name: 'Voda 0,5 l',              cat: 'drink', carbs: 0,  sodium: 0,   fluid: 500, kcal: 0,   caffeine: 0 },
-  { id: 'ion-500',      name: 'Iontový nápoj 0,5 l',     cat: 'drink', carbs: 30, sodium: 250, fluid: 500, kcal: 120, caffeine: 0 },
+  /* ================= VLASTNÉ NÁPOJE ================= */
+  { id: 'voda-500',      name: 'Voda 0,5 l',                cat: 'drink', carbs: 0,  sodium: 0,   fluid: 500, kcal: 0,   caffeine: 0 },
+  { id: 'sol-tableta',   name: 'Soľná tableta (1 ks)',      cat: 'drink', carbs: 0,  sodium: 150, fluid: 0,   kcal: 0,   caffeine: 0 },
+  { id: 'redbull',       name: 'Red Bull Watermelon 250 ml',cat: 'drink', carbs: 28, sodium: 0,   fluid: 250, kcal: 112, caffeine: 80 },
+  { id: 'dzus',          name: 'Džús 200 ml',               cat: 'drink', carbs: 20, sodium: 0,   fluid: 200, kcal: 80,  caffeine: 0 },
 
-  /* ---------- Tuhé jedlo z vesty ---------- */
-  { id: 'dm-vafla',     name: 'dm medová vafľa (1 ks)',  cat: 'solid', carbs: 18, sodium: 118, fluid: 0,   kcal: 123, caffeine: 0 },
-  { id: 'dm-gulicky',   name: 'dm guličky slané (60 g)', cat: 'solid', carbs: 30, sodium: 211, fluid: 0,   kcal: 257, caffeine: 0 },
-  { id: 'ryzova-gulka', name: 'Ryžová guľka vlastná',    cat: 'solid', carbs: 28, sodium: 300, fluid: 0,   kcal: 140, caffeine: 0 },
-  { id: 'datle',        name: 'Datle (2 ks)',            cat: 'solid', carbs: 30, sodium: 1,   fluid: 0,   kcal: 120, caffeine: 0 },
-  { id: 'krekry',       name: 'Slané krekry (hrsť)',     cat: 'solid', carbs: 20, sodium: 250, fluid: 0,   kcal: 130, caffeine: 0 },
-  { id: 'susene-maso',  name: 'Sušené mäso (25 g)',      cat: 'solid', carbs: 2,  sodium: 600, fluid: 0,   kcal: 80,  caffeine: 0 },
-  { id: 'bujon-kocka',  name: 'Bujónová kocka (v pohári)', cat: 'solid', carbs: 1, sodium: 900, fluid: 200, kcal: 10, caffeine: 0 },
+  /* ================= TUHÉ JEDLO Z VESTY ================= */
+  { id: 'dm-vafla',      name: 'dm medová vafľa (1 ks)',    cat: 'solid', carbs: 18, sodium: 118, fluid: 0, kcal: 123, caffeine: 0 },
+  { id: 'apple-pencils', name: 'Apple Pencils (hrsť 30 g)', cat: 'solid', carbs: 25, sodium: 31,  fluid: 0, kcal: 112, caffeine: 0 },
+  { id: 'jojo-kysle',    name: 'Jojo kyslé želé (5 ks)',    cat: 'solid', carbs: 12, sodium: 4,   fluid: 0, kcal: 49,  caffeine: 0 },
+  { id: 'emco-ovoce',    name: 'Emco Super ovoce jahoda',   cat: 'solid', carbs: 25, sodium: 22,  fluid: 0, kcal: 111, caffeine: 0 },
+  { id: 'racio-kakao',   name: 'Racio ryžový chlebíček',    cat: 'solid', carbs: 20, sodium: 12,  fluid: 0, kcal: 140, caffeine: 0 },
+  { id: 'dm-gulicky',    name: 'dm guličky orechové (60 g)',cat: 'solid', carbs: 31, sodium: 58,  fluid: 0, kcal: 267, caffeine: 0 },
+  { id: 'oat-fruit',     name: 'Oat & Fruit tyčinka (70 g)',cat: 'solid', carbs: 43, sodium: 56,  fluid: 0, kcal: 340, caffeine: 0 },
+  { id: 'chimp-espresso',name: 'Chimpanzee Choco Espresso', cat: 'solid', carbs: 32, sodium: 33,  fluid: 0, kcal: 216, caffeine: 20 },
+  // POZOR: 10,5 g vlákniny v tyčinke. Maximálne polovicu a len v prvej polovici preteku.
+  { id: 'chimp-salty',   name: 'Chimpanzee Salty BBQ',      cat: 'solid', carbs: 24, sodium: 220, fluid: 0, kcal: 212, caffeine: 0 },
+  // ODHAD — praclíky som nemal odfotené
+  { id: 'praclíky',      name: 'Slané praclíky (hrsť 30 g)',cat: 'solid', carbs: 22, sodium: 350, fluid: 0, kcal: 120, caffeine: 0 },
 
-  /* ---------- Občerstvovačka: nápoje ---------- */
-  { id: 'bbu-voda',     name: 'Voda – doplnenie 0,5 l',  cat: 'aid',   carbs: 0,  sodium: 0,   fluid: 500, kcal: 0,   caffeine: 0 },
-  { id: 'bbu-cola',     name: 'Cola (pohár 2 dl)',       cat: 'aid',   carbs: 21, sodium: 8,   fluid: 200, kcal: 84,  caffeine: 20 },
-  { id: 'bbu-ion',      name: 'Športový nápoj 0,5 l',    cat: 'aid',   carbs: 30, sodium: 250, fluid: 500, kcal: 120, caffeine: 0 },
-  { id: 'bbu-caj',      name: 'Sladký čaj (2 dl)',       cat: 'aid',   carbs: 10, sodium: 0,   fluid: 200, kcal: 40,  caffeine: 0 },
-  { id: 'bbu-kava',     name: 'Káva (1 dl)',             cat: 'aid',   carbs: 0,  sodium: 0,   fluid: 100, kcal: 2,   caffeine: 70 },
-  { id: 'bbu-pivo',     name: 'Nealko pivo (2 dl)',      cat: 'aid',   carbs: 9,  sodium: 5,   fluid: 200, kcal: 45,  caffeine: 0 },
+  /* ================= OBČERSTVOVAČKA ================= */
+  // Cola je na 100 ml — ťukni toľkokrát, koľko dcl si dal
+  { id: 'bbu-cola',      name: 'Coca-Cola (100 ml)',        cat: 'aid', carbs: 11, sodium: 5,   fluid: 100, kcal: 42,  caffeine: 10 },
+  { id: 'bbu-birell',    name: 'Birell Pomelo Grep 0,5 l',  cat: 'aid', carbs: 35, sodium: 15,  fluid: 500, kcal: 160, caffeine: 0 },
+  { id: 'bbu-voda',      name: 'Voda – doplnenie 0,5 l',    cat: 'aid', carbs: 0,  sodium: 0,   fluid: 500, kcal: 0,   caffeine: 0 },
 
-  /* ---------- Občerstvovačka: teplé ---------- */
-  { id: 'bbu-polievka', name: 'Kuracia polievka (2 dl)', cat: 'aid',   carbs: 12, sodium: 700, fluid: 200, kcal: 70,  caffeine: 0 },
-  { id: 'bbu-bujon',    name: 'Zeleninový bujón (2 dl)', cat: 'aid',   carbs: 2,  sodium: 800, fluid: 200, kcal: 15,  caffeine: 0 },
-  { id: 'bbu-cestoviny',name: 'Cestoviny (porcia)',      cat: 'aid',   carbs: 45, sodium: 300, fluid: 0,   kcal: 250, caffeine: 0 },
-  { id: 'bbu-zemiaky',  name: 'Pečené zemiaky (100 g)',  cat: 'aid',   carbs: 20, sodium: 250, fluid: 0,   kcal: 95,  caffeine: 0 },
+  { id: 'bbu-polievka',  name: 'Kuracia polievka (2 dl)',   cat: 'aid', carbs: 8,  sodium: 600, fluid: 200, kcal: 50,  caffeine: 0 },
+  { id: 'bbu-uhorka',    name: 'Kyslá uhorka (1 ks)',       cat: 'aid', carbs: 1,  sodium: 400, fluid: 50,  kcal: 8,   caffeine: 0 },
+  { id: 'bbu-chipsy',    name: 'Chipsy (pár ks, 10 g)',     cat: 'aid', carbs: 5,  sodium: 50,  fluid: 0,   kcal: 54,  caffeine: 0 },
 
-  /* ---------- Občerstvovačka: ovocie ---------- */
-  { id: 'bbu-banan',    name: 'Banán (1 ks)',            cat: 'aid',   carbs: 27, sodium: 1,   fluid: 0,   kcal: 105, caffeine: 0 },
-  { id: 'bbu-pomaranc', name: 'Pomaranč (pár dielikov)', cat: 'aid',   carbs: 9,  sodium: 0,   fluid: 80,  kcal: 43,  caffeine: 0 },
-  { id: 'bbu-melon',    name: 'Melón (100 g)',           cat: 'aid',   carbs: 8,  sodium: 1,   fluid: 90,  kcal: 30,  caffeine: 0 },
+  { id: 'bbu-banan',     name: 'Banán – polovica',          cat: 'aid', carbs: 14, sodium: 1,   fluid: 0,   kcal: 53,  caffeine: 0 },
+  { id: 'bbu-pomaranc',  name: 'Pomaranč – štvrtina',       cat: 'aid', carbs: 6,  sodium: 0,   fluid: 40,  kcal: 24,  caffeine: 0 },
 
-  /* ---------- Občerstvovačka: slané ---------- */
-  { id: 'bbu-sol',      name: 'Soľ – štipka (1 g)',      cat: 'aid',   carbs: 0,  sodium: 400, fluid: 0,   kcal: 0,   caffeine: 0 },
-  { id: 'bbu-uhorka',   name: 'Kyslá uhorka (1 ks)',     cat: 'aid',   carbs: 2,  sodium: 400, fluid: 40,  kcal: 10,  caffeine: 0 },
-  { id: 'bbu-chipsy',   name: 'Chipsy (hrsť)',           cat: 'aid',   carbs: 13, sodium: 130, fluid: 0,   kcal: 135, caffeine: 0 },
-  { id: 'bbu-salama',   name: 'Saláma (2 plátky)',       cat: 'aid',   carbs: 0,  sodium: 350, fluid: 0,   kcal: 70,  caffeine: 0 },
-  { id: 'bbu-toast',    name: 'Toast so syrom',          cat: 'aid',   carbs: 20, sodium: 350, fluid: 0,   kcal: 200, caffeine: 0 },
-  { id: 'bbu-sushi',    name: 'Ryžová guľka (1 ks)',     cat: 'aid',   carbs: 15, sodium: 100, fluid: 0,   kcal: 70,  caffeine: 0 },
+  { id: 'bbu-nutella',   name: 'Chlieb s Nutellou',         cat: 'aid', carbs: 28, sodium: 210, fluid: 0,   kcal: 180, caffeine: 0 },
+  { id: 'bbu-lunter',    name: 'Chlieb s Lunter nátierkou', cat: 'aid', carbs: 21, sodium: 300, fluid: 0,   kcal: 136, caffeine: 0 },
 
-  /* ---------- Občerstvovačka: pečivo ---------- */
-  { id: 'bbu-dzem',     name: 'Chlieb s džemom',         cat: 'aid',   carbs: 30, sodium: 200, fluid: 0,   kcal: 150, caffeine: 0 },
-  { id: 'bbu-mast',     name: 'Chlieb s masťou + soľ',   cat: 'aid',   carbs: 15, sodium: 300, fluid: 0,   kcal: 180, caffeine: 0 },
-  { id: 'bbu-nutella',  name: 'Chlieb s Nutellou',       cat: 'aid',   carbs: 28, sodium: 150, fluid: 0,   kcal: 190, caffeine: 0 },
-  { id: 'bbu-vianocka', name: 'Vianočka (krajec)',       cat: 'aid',   carbs: 25, sodium: 80,  fluid: 0,   kcal: 160, caffeine: 0 },
-  { id: 'bbu-palacinka',name: 'Palacinka (1 ks)',        cat: 'aid',   carbs: 25, sodium: 100, fluid: 0,   kcal: 160, caffeine: 0 }
+  /* --- veci, čo budú len niekde; hodnoty sú hrubý odhad --- */
+  { id: 'bbu-palacinka', name: 'Palacinka (1 ks)',          cat: 'aid', carbs: 28, sodium: 120, fluid: 0,   kcal: 180, caffeine: 0 },
+  { id: 'bbu-sushi',     name: 'Ryžová guľka (1 ks)',       cat: 'aid', carbs: 11, sodium: 80,  fluid: 0,   kcal: 50,  caffeine: 0 },
+  { id: 'bbu-toast',     name: 'Toast so syrom a šunkou',   cat: 'aid', carbs: 22, sodium: 500, fluid: 0,   kcal: 220, caffeine: 0 }
 
 ];
