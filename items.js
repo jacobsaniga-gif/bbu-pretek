@@ -6,6 +6,9 @@
    Hodnoty sú z etikiet, prepočítané na porciu.
    Sodík = soľ (g) ÷ 2,5 × 1000.
 
+   NA 100 ml sú: voda, iontový nápoj, cola.
+   Tie ťukáš toľkokrát, koľko dcl si dal (0,5 l = 5×).
+
    ODHADY sú označené komentárom. Uprav ich, ak máš presnejšie údaje.
    ========================================================================= */
 
@@ -22,11 +25,11 @@ window.ITEMS = [
   { id: 'chimp-mango',   name: 'Chews Tropical Mango (35 g)', cat: 'gel', carbs: 26, sodium: 14, fluid: 0,  kcal: 117, caffeine: 0 },
   { id: 'chimp-jahoda',  name: 'Chews Strawberry (35 g)',   cat: 'gel', carbs: 26, sodium: 14,  fluid: 0,   kcal: 123, caffeine: 0 },
   { id: 'svacinka',      name: 'Svačinka XXL (200 g)',      cat: 'gel', carbs: 37, sodium: 40,  fluid: 150, kcal: 152, caffeine: 0 },
-  // ODHAD — kapsičku Amigo som nemal odfotenú, over si údaje na obale
-  { id: 'amigo',         name: 'Amigo kapsička (100 g)',    cat: 'gel', carbs: 15, sodium: 5,   fluid: 70,  kcal: 65,  caffeine: 0 },
 
   /* ================= VLASTNÉ NÁPOJE ================= */
-  { id: 'voda-500',      name: 'Voda 0,5 l',                cat: 'drink', carbs: 0,  sodium: 0,   fluid: 500, kcal: 0,   caffeine: 0 },
+  { id: 'voda',          name: 'Voda (1 dcl)',              cat: 'drink', carbs: 0,  sodium: 0,   fluid: 100, kcal: 0,   caffeine: 0 },
+  // ODHAD — bežný iontový nápoj. Uprav podľa svojho, hodnoty sú na 100 ml.
+  { id: 'iont',          name: 'Iontový nápoj (1 dcl)',     cat: 'drink', carbs: 6,  sodium: 50,  fluid: 100, kcal: 24,  caffeine: 0 },
   { id: 'sol-tableta',   name: 'Soľná tableta (1 ks)',      cat: 'drink', carbs: 0,  sodium: 150, fluid: 0,   kcal: 0,   caffeine: 0 },
   { id: 'redbull',       name: 'Red Bull Watermelon 250 ml',cat: 'drink', carbs: 28, sodium: 0,   fluid: 250, kcal: 112, caffeine: 80 },
   { id: 'dzus',          name: 'Džús 200 ml',               cat: 'drink', carbs: 20, sodium: 0,   fluid: 200, kcal: 80,  caffeine: 0 },
@@ -43,13 +46,11 @@ window.ITEMS = [
   // POZOR: 10,5 g vlákniny v tyčinke. Maximálne polovicu a len v prvej polovici preteku.
   { id: 'chimp-salty',   name: 'Chimpanzee Salty BBQ',      cat: 'solid', carbs: 24, sodium: 220, fluid: 0, kcal: 212, caffeine: 0 },
   // ODHAD — praclíky som nemal odfotené
-  { id: 'praclíky',      name: 'Slané praclíky (hrsť 30 g)',cat: 'solid', carbs: 22, sodium: 350, fluid: 0, kcal: 120, caffeine: 0 },
+  { id: 'pracliky',      name: 'Slané praclíky (hrsť 30 g)',cat: 'solid', carbs: 22, sodium: 350, fluid: 0, kcal: 120, caffeine: 0 },
 
   /* ================= OBČERSTVOVAČKA ================= */
-  // Cola je na 100 ml — ťukni toľkokrát, koľko dcl si dal
-  { id: 'bbu-cola',      name: 'Coca-Cola (100 ml)',        cat: 'aid', carbs: 11, sodium: 5,   fluid: 100, kcal: 42,  caffeine: 10 },
+  { id: 'bbu-cola',      name: 'Coca-Cola (1 dcl)',         cat: 'aid', carbs: 11, sodium: 5,   fluid: 100, kcal: 42,  caffeine: 10 },
   { id: 'bbu-birell',    name: 'Birell Pomelo Grep 0,5 l',  cat: 'aid', carbs: 35, sodium: 15,  fluid: 500, kcal: 160, caffeine: 0 },
-  { id: 'bbu-voda',      name: 'Voda – doplnenie 0,5 l',    cat: 'aid', carbs: 0,  sodium: 0,   fluid: 500, kcal: 0,   caffeine: 0 },
 
   { id: 'bbu-polievka',  name: 'Kuracia polievka (2 dl)',   cat: 'aid', carbs: 8,  sodium: 600, fluid: 200, kcal: 50,  caffeine: 0 },
   { id: 'bbu-uhorka',    name: 'Kyslá uhorka (1 ks)',       cat: 'aid', carbs: 1,  sodium: 400, fluid: 50,  kcal: 8,   caffeine: 0 },
